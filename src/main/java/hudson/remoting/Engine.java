@@ -143,6 +143,7 @@ public class Engine extends Thread {
     private boolean disableHttpsCertValidation;
 
     private boolean noReconnect;
+    private int connectTimeout;
 
     /**
      * Determines whether the socket will have {@link Socket#setKeepAlive(boolean)} set or not.
@@ -326,6 +327,10 @@ public class Engine extends Thread {
         this.noReconnect = noReconnect;
     }
 
+    public void setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
+    }
+
     /**
      * Determines if JNLPAgentEndpointResolver will not perform certificate validation in the HTTPs mode.
      *
@@ -499,6 +504,7 @@ public class Engine extends Thread {
         resolver.setCredentials(credentials);
         resolver.setProxyCredentials(proxyCredentials);
         resolver.setTunnel(tunnel);
+        resolver.setConnectTimeout(connectTimeout);
         try {
             resolver.setSslSocketFactory(getSSLSocketFactory());
             resolver.setDisableHttpsCertValidation(disableHttpsCertValidation);
@@ -842,4 +848,5 @@ public class Engine extends Thread {
      * @since 2.4
      */
     static final int SOCKET_TIMEOUT = Integer.getInteger(Engine.class.getName()+".socketTimeout",30*60*1000);
+
 }

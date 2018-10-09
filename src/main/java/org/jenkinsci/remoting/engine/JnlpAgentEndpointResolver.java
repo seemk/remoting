@@ -86,6 +86,8 @@ public class JnlpAgentEndpointResolver {
 
     private boolean disableHttpsCertValidation;
 
+    private int connectTimeout;
+
     /**
      * If specified, only the protocols from the list will be tried during the connection.
      * The option provides protocol names, but the order of the check is defined internally and cannot be changed.
@@ -133,6 +135,10 @@ public class JnlpAgentEndpointResolver {
 
     public void setProxyCredentials(String user, String pass) {
         this.proxyCredentials = user + ":" + pass;
+    }
+
+    public void setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
     }
 
     @CheckForNull
@@ -188,7 +194,7 @@ public class JnlpAgentEndpointResolver {
                     (HttpURLConnection) openURLConnection(salURL, credentials, proxyCredentials, sslSocketFactory, disableHttpsCertValidation);
             try {
                 try {
-                    con.setConnectTimeout(30000);
+                    con.setConnectTimeout(connectTimeout);
                     con.setReadTimeout(60000);
                     con.connect();
                 } catch (IOException x) {

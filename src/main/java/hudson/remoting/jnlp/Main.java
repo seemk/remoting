@@ -93,6 +93,10 @@ public class Main {
             usage="If the connection ends, don't retry and just exit.")
     public boolean noReconnect = false;
 
+    @Option(name="-connectTimeout",
+            usage="Time in milliseconds to wait for connection establishment.")
+    public int connectTimeout = 30000;
+
     @Option(name="-noKeepAlive",
             usage="Disable TCP socket keep alive on connection to the master.")
     public boolean noKeepAlive = false;
@@ -253,6 +257,7 @@ public class Main {
             engine.setJarCache(new FileSystemJarCache(jarCache,true));
         engine.setNoReconnect(noReconnect);
         engine.setKeepAlive(!noKeepAlive);
+        engine.setConnectTimeout(connectTimeout);
 
         if (disableHttpsCertValidation) {
             LOGGER.log(WARNING, "Certificate validation for HTTPs endpoints is disabled");
